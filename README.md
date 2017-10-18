@@ -1,2 +1,4 @@
-# inaras-php-wrapper
-PHP Wrapper for the Inaras SOAP Webservice
+# octopus-php-wrapper
+PHP Wrapper for the Octopus SOAP Webservice
+
+WIP
