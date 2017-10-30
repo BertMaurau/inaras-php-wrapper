@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-namespace Octopus\Model;
+namespace Octopus\Item;
 
 /**
  * Description of Dossier

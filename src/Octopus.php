@@ -19,13 +19,13 @@
 namespace Octopus;
 
 use Octopus\Exception as Exception;
-use Octopus\Model as Model;
+use Octopus\Item as Item;
 
 require_once __DIR__ . '\Exception\MissingValueException.php';
 
 require_once __DIR__ . '\ReturnCodes.php';
 
-require_once __DIR__ . '\Model\Credentials.php';
+require_once __DIR__ . '\Item\Credentials.php';
 
 /**
  * Description of the main Octopus Class
@@ -138,7 +138,7 @@ class Octopus
             throw new \Exception($this -> getResponse($result -> return) -> message);
         }
 
-        $dossier = (new Model\Dossier())
+        $dossier = (new Item\Dossier())
                 -> setDossierDescription($result -> return -> dossierDescription)
                 -> setDossierKey($result -> return -> dossierKey);
 
@@ -216,7 +216,7 @@ class Octopus
 
     public function setCredentials($user, $password)
     {
-        $this -> credentials = (new Model\Credentials()) -> setUser($user) -> setPassword($password);
+        $this -> credentials = (new Item\Credentials()) -> setUser($user) -> setPassword($password);
         return $this;
     }
 
@@ -230,7 +230,7 @@ class Octopus
         return $this -> dossier;
     }
 
-    public function setDossier(Model\Dossier $dossier)
+    public function setDossier(Item\Dossier $dossier)
     {
         $this -> dossier = $dossier;
         return $this;
