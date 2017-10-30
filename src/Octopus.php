@@ -21,11 +21,11 @@ namespace Octopus;
 use Octopus\Exception as Exception;
 use Octopus\Item as Item;
 
-require_once __DIR__ . '\Exception\MissingValueException.php';
+require_once __DIR__ . '/Exception/MissingValueException.php';
 
-require_once __DIR__ . '\ReturnCodes.php';
+require_once __DIR__ . '/ReturnCodes.php';
 
-require_once __DIR__ . '\Item\Credentials.php';
+require_once __DIR__ . '/Item/Credentials.php';
 
 /**
  * Description of the main Octopus Class
@@ -158,7 +158,7 @@ class Octopus
         }
 
         $request = array(
-            "dossierKey" => $dossier -> $this -> getDossier() -> getDossierKey());
+            "dossierKey" => $this -> getDossier() -> getDossierKey());
 
         try {
             $result = $this -> soap -> ConnectToDossier($request);
@@ -190,6 +190,42 @@ class Octopus
             throw new \Exception($this -> getResponse($result -> return) -> message);
         } else {
             return $this;
+        }
+    }
+
+//Get the accounts for a specific bookyear
+
+    public function getAccounts(Item\BookyearKey $bookyearKey)
+    {
+        // Check for BOokyearkey first
+        if (!$bookyearKey) {
+            throw new Exception\MissingValueException('BookyearKey', 'Accounts');
+        }
+
+        $request = array(
+            "bookyearKey" => $bookyearKey);
+
+        try {
+            $result = $this -> soap -> GetAccounts($request);
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    //Get the bookyears in the current opened dossier
+
+    public function getBookyears()
+    {
+        try {
+            $result = $this -> soap -> GetBookyears();
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
+        var_dump($result);
+        if (!isset($result -> return) || $result -> return !== 0) {
+            throw new \Exception($this -> getResponse($result) -> message);
+        } else {
+
         }
     }
 

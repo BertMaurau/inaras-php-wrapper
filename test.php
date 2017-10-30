@@ -29,11 +29,11 @@ $octopus -> setSoftwareHouseUuid(getenv("SOFTWAREHOUSE_UUID"))
         -> authenticate();
 //var_dump($octopus -> getDossier());
 
-$dossier = (new \Octopus\Model\Dossier())
+$dossier = (new \Octopus\Item\Dossier())
         -> setDossierDescription('SoftTouch')
         -> setDossierKey((object) ['id' => 3768]);
 
 $octopus -> setDossier($dossier) -> connect();
 
-var_dump($octopus -> closeDossier());
+var_dump($octopus -> getBookyears());
 
