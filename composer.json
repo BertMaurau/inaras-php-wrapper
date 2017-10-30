@@ -1,0 +1,25 @@
+{
+    "name": "bertmaurau/octopus-php-wrapper",
+    "description": "PHP Wrapper for the Octopus SOAP Webservice",
+	"keywords": ["inaras", "octopus", "wrapper", "php", "library"],
+	"version": "0.0.1",
+	"minimum-stability": "dev",
+    "require": {
+		"php": ">=5.4.0"
+    },
+	"require-dev": {
+        "vlucas/phpdotenv": "^2.4"
+    },
+    "authors": [
+        {
+            "name": "Bert Maurau",
+            "email": "hello@bertmaurau.be"
+        }
+    ],
+	"autoload": {
+        "psr-4": {
+            "Octopus\\": "src/"
+        }
+    }
+}
+ 
