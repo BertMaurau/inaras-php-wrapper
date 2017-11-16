@@ -16,6 +16,8 @@
  * limitations under the License.
  */
 
+error_reporting(E_ALL);
+
 require_once 'src/Octopus.php';
 
 require __DIR__ . '/vendor/autoload.php';
@@ -32,9 +34,14 @@ $octopus -> setSoftwareHouseUuid(getenv("SOFTWAREHOUSE_UUID"))
 $dossier = (new \Octopus\Item\Dossier())
         -> setDossierDescription('SoftTouch')
         -> setDossierKey((object) ['id' => 3768]);
+try {
+    $octopus -> setDossier($dossier) -> connect();
+} catch (\Exception $ex) {
+    echo "Failed to connect. Reason: " . $ex -> getMessage();
+    exit();
+}
+$octopus -> getCostCentres();
+//\Octopus\dump($octopus -> getAccounts(new \Octopus\Item\BookyearKey(1)));
 
-$octopus -> setDossier($dossier) -> connect();
-
-\Octopus\dump($octopus -> getAccounts(new \Octopus\Item\BookyearKey(1)));
 
 $octopus -> close();
