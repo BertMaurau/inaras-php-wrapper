@@ -27,6 +27,13 @@ require_once __DIR__ . '/ReturnCodes.php';
 
 require_once __DIR__ . '/Item/Credentials.php';
 
+function dd($data)
+{
+    echo '<pre>';
+    print_r($data);
+    echo '</pre>';
+}
+
 /**
  * Description of the main Octopus Class
  *
@@ -193,8 +200,7 @@ class Octopus
         }
     }
 
-//Get the accounts for a specific bookyear
-
+    //Get the accounts for a specific bookyear
     public function getAccounts(Item\BookyearKey $bookyearKey)
     {
         // Check for BOokyearkey first
@@ -212,8 +218,11 @@ class Octopus
         }
     }
 
-    //Get the bookyears in the current opened dossier
-
+    /**
+     * Get the bookyears in the current opened dossier
+     * @return \Octopus\Item\Bookyear
+     * @throws \Exception
+     */
     public function getBookyears()
     {
         try {
@@ -221,12 +230,24 @@ class Octopus
         } catch (\Exception $ex) {
             throw $ex;
         }
-        var_dump($result);
-        if (!isset($result -> return) || $result -> return !== 0) {
-            throw new \Exception($this -> getResponse($result) -> message);
+        $return = array();
+        // Check for array or 1 item
+        if (count($result -> return) > 1) {
+            // array
+            $return = $result -> return;
         } else {
-
+            if (!isset($result -> bookyearKey)) {
+                throw new \Exception($this -> getResponse($result) -> message);
+            } else {
+                $return[0] = $result -> return;
+            }
         }
+
+        foreach ($return as $key => $bookyear) {
+            $return[$key] = new Item\Bookyear($bookyear);
+        }
+
+        return $return;
     }
 
     /**
