@@ -35,5 +35,6 @@ $dossier = (new \Octopus\Item\Dossier())
 
 $octopus -> setDossier($dossier) -> connect();
 
-var_dump($octopus -> getBookyears());
+\Octopus\dump($octopus -> getAccounts(new \Octopus\Item\BookyearKey(1)));
 
+$octopus -> close();

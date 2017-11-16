@@ -27,7 +27,7 @@ require_once __DIR__ . '/ReturnCodes.php';
 
 require_once __DIR__ . '/Item/Credentials.php';
 
-function dd($data)
+function dump($data)
 {
     echo '<pre>';
     print_r($data);
@@ -216,6 +216,24 @@ class Octopus
         } catch (\Exception $ex) {
             throw $ex;
         }
+
+        // Check for array or 1 item
+        if (count($result -> return) > 1) {
+            // array
+            $return = $result -> return;
+        } else {
+            if (!isset($result -> accountKey)) {
+                throw new \Exception($this -> getResponse($result) -> message);
+            } else {
+                $return[0] = $result -> return;
+            }
+        }
+
+        foreach ($return as $key => $account) {
+            $return[$key] = new Item\Account($account);
+        }
+
+        return $return;
     }
 
     /**
@@ -245,6 +263,42 @@ class Octopus
 
         foreach ($return as $key => $bookyear) {
             $return[$key] = new Item\Bookyear($bookyear);
+        }
+
+        return $return;
+    }
+
+    public function getJournals(Item\BookyearKey $bookyearKey)
+    {
+        // Check for BOokyearkey first
+        if (!$bookyearKey) {
+            throw new Exception\MissingValueException('BookyearKey', 'Journals');
+        }
+
+        $request = array(
+            "bookyearKey" => $bookyearKey);
+
+        try {
+            $result = $this -> soap -> GetJournals($request);
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
+
+        $return = array();
+        // Check for array or 1 item
+        if (count($result -> return) > 1) {
+            // array
+            $return = $result -> return;
+        } else {
+            if (!isset($result -> bookyearKey)) {
+                throw new \Exception($this -> getResponse($result) -> message);
+            } else {
+                $return[0] = $result -> return;
+            }
+        }
+
+        foreach ($return as $key => $journal) {
+            $return[$key] = new Item\Journal($journal);
         }
 
         return $return;
