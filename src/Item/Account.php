@@ -88,7 +88,7 @@ class Account
 
     public function setDescription($description)
     {
-        $this -> description = $description;
+        $this -> description = new Description($description);
         return $this;
     }
 

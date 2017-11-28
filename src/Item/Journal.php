@@ -121,7 +121,7 @@ class Journal
 
     public function setBookyearKey($bookyearKey)
     {
-        $this -> bookyearKey = new Item\BookyearKey($bookyearKey);
+        $this -> bookyearKey = new BookyearKey($bookyearKey);
         return $this;
     }
 
@@ -139,7 +139,7 @@ class Journal
 
     public function setJournalKey($journalKey)
     {
-        $this -> journalKey = new Item\JournalKey($journalKey);
+        $this -> journalKey = new JournalKey($journalKey);
         return $this;
     }
 

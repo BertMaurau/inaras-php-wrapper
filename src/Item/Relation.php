@@ -391,7 +391,7 @@ class Relation
 
     public function setRelationKey($relationKey)
     {
-        $this -> relationKey = new Item\RelationKey($relationKey);
+        $this -> relationKey = new RelationKey($relationKey);
         return $this;
     }
 

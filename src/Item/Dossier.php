@@ -91,7 +91,7 @@ class Dossier
 
     public function setDossierKey($dossierKey)
     {
-        $this -> dossierKey = new Item\DossierKey($dossierKey);
+        $this -> dossierKey = new DossierKey($dossierKey);
         return $this;
     }
 

@@ -175,7 +175,7 @@ class Product
 
     public function setDescription($description)
     {
-        $this -> description = $description;
+        $this -> description = new Description($description);
         return $this;
     }
 
@@ -199,7 +199,7 @@ class Product
 
     public function setProductKey($productKey)
     {
-        $this -> productKey = new Item\ProductKey($productKey);
+        $this -> productKey = new ProductKey($productKey);
         return $this;
     }
 

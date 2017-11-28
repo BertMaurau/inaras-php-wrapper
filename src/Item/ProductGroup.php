@@ -82,13 +82,13 @@ class ProductGroup
 
     public function setDescription($description)
     {
-        $this -> description = $description;
+        $this -> description = new Description($description);
         return $this;
     }
 
     public function setProductGroupKey($productGroupKey)
     {
-        $this -> productGroupKey = $productGroupKey;
+        $this -> productGroupKey = new ProductGroupKey($productGroupKey);
         return $this;
     }
 

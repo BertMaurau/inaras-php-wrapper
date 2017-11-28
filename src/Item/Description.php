@@ -19,46 +19,16 @@
 namespace Octopus\Item;
 
 /**
- * Description of CostCentreKey
+ * Description of Description
  *
  * @author Bert Maurau
  */
-class CostCentreKey
+class Description
 {
 
-    private $id; // integer
-
-    public function __construct($id = null)
-    {
-        if ($id) {
-            $this -> setId($id);
-        }
-    }
-
-    public function getId()
-    {
-        return $this -> id;
-    }
-
-    public function setId($id)
-    {
-        $this -> id = $id;
-        return $this;
-    }
-
-}
-
-/**
- * Description of CostCentre
- *
- * @author Bert Maurau
- */
-class CostCentre
-{
-
-    private $costCentreKey; // CostCentreKey
-    private $closed; // boolean
-    private $description; // array
+    private $description_NL;
+    private $description_FR;
+    private $description_EN;
 
     public function __construct($properties = null)
     {
@@ -71,36 +41,41 @@ class CostCentre
         }
     }
 
-    public function getCostCentreKey()
+    public function get($locale = 'NL')
     {
-        return $this -> costCentreKey;
+        return $this -> {'description_' . $locale};
     }
 
-    public function getClosed()
+    public function getDescription_NL()
     {
-        return $this -> closed;
+        return $this -> description_NL;
     }
 
-    public function getDescription()
+    public function getDescription_FR()
     {
-        return $this -> description;
+        return $this -> description_FR;
     }
 
-    public function setCostCentreKey($costCentreKey)
+    public function getDescription_EN()
     {
-        $this -> costCentreKey = new CostCentreKey($costCentreKey);
+        return $this -> description_EN;
+    }
+
+    public function setDescription_NL($description_NL)
+    {
+        $this -> description_NL = $description_NL;
         return $this;
     }
 
-    public function setClosed($closed)
+    public function setDescription_FR($description_FR)
     {
-        $this -> closed = $closed;
+        $this -> description_FR = $description_FR;
         return $this;
     }
 
-    public function setDescription($description)
+    public function setDescription_EN($description_EN)
     {
-        $this -> description = new Description($description);
+        $this -> description_EN = $description_EN;
         return $this;
     }
 
