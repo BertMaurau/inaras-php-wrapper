@@ -19,6 +19,40 @@
 namespace Octopus\Item;
 
 /**
+ * Description of JournalKey
+ *
+ * @author Bert Maurau
+ */
+class JournalKey
+{
+
+    private $id; // integer
+
+    public function __construct($properties = null)
+    {
+        if ($properties) {
+            foreach ($properties as $key => $value) {
+                if (property_exists($this, $key)) {
+                    $this -> {'set' . ucfirst($key)}($value);
+                }
+            }
+        }
+    }
+
+    public function getId()
+    {
+        return $this -> id;
+    }
+
+    public function setId($id)
+    {
+        $this -> id = $id;
+        return $this;
+    }
+
+}
+
+/**
  * Description of Journal
  *
  * @author Bert Maurau
@@ -43,6 +77,11 @@ class Journal
                 }
             }
         }
+    }
+
+    public function getId()
+    {
+        return $this -> journalKey -> getId();
     }
 
     public function getBookyearKey()
@@ -82,7 +121,7 @@ class Journal
 
     public function setBookyearKey($bookyearKey)
     {
-        $this -> bookyearKey = $bookyearKey;
+        $this -> bookyearKey = new Item\BookyearKey($bookyearKey);
         return $this;
     }
 
@@ -100,7 +139,7 @@ class Journal
 
     public function setJournalKey($journalKey)
     {
-        $this -> journalKey = $journalKey;
+        $this -> journalKey = new Item\JournalKey($journalKey);
         return $this;
     }
 

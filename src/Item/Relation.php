@@ -19,6 +19,40 @@
 namespace Octopus\Item;
 
 /**
+ * Description of RelationKey
+ *
+ * @author Bert Maurau
+ */
+class RelationKey
+{
+
+    private $id; // integer
+
+    public function __construct($properties = null)
+    {
+        if ($properties) {
+            foreach ($properties as $key => $value) {
+                if (property_exists($this, $key)) {
+                    $this -> {'set' . ucfirst($key)}($value);
+                }
+            }
+        }
+    }
+
+    public function getId()
+    {
+        return $this -> id;
+    }
+
+    public function setId($id)
+    {
+        $this -> id = $id;
+        return $this;
+    }
+
+}
+
+/**
  * Description of Relation
  *
  * @author Bert Maurau
@@ -67,6 +101,11 @@ class Relation
                 }
             }
         }
+    }
+
+    public function getId()
+    {
+        return $this -> relationKey -> getId();
     }
 
     public function getActive()
@@ -352,7 +391,7 @@ class Relation
 
     public function setRelationKey($relationKey)
     {
-        $this -> relationKey = $relationKey;
+        $this -> relationKey = new Item\RelationKey($relationKey);
         return $this;
     }
 

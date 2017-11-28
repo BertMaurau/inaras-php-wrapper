@@ -19,6 +19,40 @@
 namespace Octopus\Item;
 
 /**
+ * Description of BookyearKey
+ *
+ * @author Bert Maurau
+ */
+class BookyearKey
+{
+
+    private $id; // integer
+
+    public function __construct($properties = null)
+    {
+        if ($properties) {
+            foreach ($properties as $key => $value) {
+                if (property_exists($this, $key)) {
+                    $this -> {'set' . ucfirst($key)}($value);
+                }
+            }
+        }
+    }
+
+    public function getId()
+    {
+        return $this -> id;
+    }
+
+    public function setId($id)
+    {
+        $this -> id = $id;
+        return $this;
+    }
+
+}
+
+/**
  * Description of Bookyear
  *
  * @author Bert Maurau
@@ -42,6 +76,11 @@ class Bookyear
                 }
             }
         }
+    }
+
+    public function getId()
+    {
+        return $this -> bookyearKey -> getId();
     }
 
     public function getBookyearDescription()
@@ -82,7 +121,7 @@ class Bookyear
 
     public function setBookyearKey($bookyearKey)
     {
-        $this -> bookyearKey = $bookyearKey;
+        $this -> bookyearKey = new Item\BookyearKey($bookyearKey);
         return $this;
     }
 
@@ -103,6 +142,64 @@ class Bookyear
         foreach ($periods as $key => $period) {
             $this -> periods[$period -> bookyearPeriod] = new BookyearPeriod($period);
         }
+        return $this;
+    }
+
+    public function setStartDate($startDate)
+    {
+        $this -> startDate = $startDate;
+        return $this;
+    }
+
+}
+
+/**
+ * Description of BookyearPeriod
+ *
+ * @author Bert Maurau
+ */
+class BookyearPeriod
+{
+
+    private $bookyearPeriod; // integer
+    private $endDate; // Date
+    private $startDate; // Date
+
+    public function __construct($properties = null)
+    {
+        if ($properties) {
+            foreach ($properties as $key => $value) {
+                if (property_exists($this, $key)) {
+                    $this -> {'set' . ucfirst($key)}($value);
+                }
+            }
+        }
+    }
+
+    public function getBookyearPeriod()
+    {
+        return $this -> bookyearPeriod;
+    }
+
+    public function getEndDate()
+    {
+        return $this -> endDate;
+    }
+
+    public function getStartDate()
+    {
+        return $this -> startDate;
+    }
+
+    public function setBookyearPeriod($bookyearPeriod)
+    {
+        $this -> bookyearPeriod = $bookyearPeriod;
+        return $this;
+    }
+
+    public function setEndDate($endDate)
+    {
+        $this -> endDate = $endDate;
         return $this;
     }
 

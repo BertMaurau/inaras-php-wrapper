@@ -19,6 +19,36 @@
 namespace Octopus\Item;
 
 /**
+ * Description of CostCentreKey
+ *
+ * @author Bert Maurau
+ */
+class CostCentreKey
+{
+
+    private $id; // integer
+
+    public function __construct($id = null)
+    {
+        if ($id) {
+            $this -> setId($id);
+        }
+    }
+
+    public function getId()
+    {
+        return $this -> id;
+    }
+
+    public function setId($id)
+    {
+        $this -> id = $id;
+        return $this;
+    }
+
+}
+
+/**
  * Description of CostCentre
  *
  * @author Bert Maurau
