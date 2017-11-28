@@ -474,6 +474,72 @@ class Octopus
     }
 
     /**
+     * List the ProductGroups
+     * @return \Octopus\Item\ProductGroup
+     * @throws \Exception
+     */
+    public function getProductGroups()
+    {
+        try {
+            $result = $this -> soap -> GetProductGroups();
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
+
+        $return = array();
+
+        if (count($result -> return) > 1) {
+            // array
+            $return = $result -> return;
+        } else {
+            if (!isset($result -> return -> productGroupKey)) {
+                throw new \Exception($this -> getResponse($result -> return) -> message);
+            } else {
+                $return[0] = $result -> return;
+            }
+        }
+
+        foreach ($return as $key => $productgroup) {
+            $return[$key] = new Item\ProductGroup($productgroup);
+        }
+
+        return $return;
+    }
+
+    /**
+     * List the Products
+     * @return \Octopus\Item\Product
+     * @throws \Exception
+     */
+    public function getProducts()
+    {
+        try {
+            $result = $this -> soap -> GetProducts();
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
+
+        $return = array();
+
+        if (count($result -> return) > 1) {
+            // array
+            $return = $result -> return;
+        } else {
+            if (!isset($result -> return -> productKey)) {
+                throw new \Exception($this -> getResponse($result -> return) -> message);
+            } else {
+                $return[0] = $result -> return;
+            }
+        }
+
+        foreach ($return as $key => $product) {
+            $return[$key] = new Item\Product($product);
+        }
+
+        return $return;
+    }
+
+    /**
      * Create object with code and message for return codes
      * @param integer $code
      * @return object
