@@ -373,6 +373,11 @@ class Octopus
         return $result -> return;
     }
 
+    /**
+     * List the costcentres
+     * @return \Octopus\Item\CostCentre
+     * @throws \Exception
+     */
     public function getCostCentres()
     {
         try {
@@ -383,22 +388,53 @@ class Octopus
 
         $return = array();
 
-        if (isset($result -> return)) {
-            // Check for array or 1 item
-            if (count($result -> return) > 1) {
-                // array
-                $return = $result -> return;
+        // Check for array or 1 item
+        if (count($result -> return) > 1) {
+            // array
+            $return = $result -> return;
+        } else {
+            if (!isset($result -> return -> code)) {
+                throw new \Exception($this -> getResponse($result -> return) -> message);
             } else {
-                if (!isset($result -> return -> costCentreKey)) {
-                    throw new \Exception($this -> getResponse($result -> return) -> message);
-                } else {
-                    $return[0] = $result -> return;
-                }
+                $return[0] = $result -> return;
             }
+        }
 
-            foreach ($return as $key => $costcentre) {
-                $return[$key] = new Item\CostCentre($costcentre);
+        foreach ($return as $key => $costcentre) {
+            $return[$key] = new Item\CostCentre($costcentre);
+        }
+
+        return $return;
+    }
+
+    /**
+     * List the Vatcodes
+     * @return \Octopus\Item\VatCode
+     * @throws \Exception
+     */
+    public function getVatCodes()
+    {
+        try {
+            $result = $this -> soap -> GetVatCodes();
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
+
+        $return = array();
+
+        if (count($result -> return) > 1) {
+            // array
+            $return = $result -> return;
+        } else {
+            if (!isset($result -> return -> costCentreKey)) {
+                throw new \Exception($this -> getResponse($result -> return) -> message);
+            } else {
+                $return[0] = $result -> return;
             }
+        }
+
+        foreach ($return as $key => $vatcode) {
+            $return[$key] = new Item\VatCode($vatcode);
         }
 
         return $return;
