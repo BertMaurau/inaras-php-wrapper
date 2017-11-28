@@ -139,7 +139,7 @@ class Octopus
             throw $ex;
         }
 
-        if (!property_exists($result -> return, 'dossierKey')) {
+        if (!isset($result -> return -> dossierKey)) {
             throw new \Exception($this -> getResponse($result -> return) -> message);
         }
 
@@ -220,7 +220,7 @@ class Octopus
             // array
             $return = $result -> return;
         } else {
-            if (!isset($result -> accountKey)) {
+            if (!isset($result -> return -> accountKey)) {
                 throw new \Exception($this -> getResponse($result -> return) -> message);
             } else {
                 $return[0] = $result -> return;
@@ -252,7 +252,7 @@ class Octopus
             // array
             $return = $result -> return;
         } else {
-            if (!isset($result -> bookyearKey)) {
+            if (!isset($result -> return -> bookyearKey)) {
                 throw new \Exception($this -> getResponse($result -> return) -> message);
             } else {
                 $return[0] = $result -> return;
@@ -295,7 +295,7 @@ class Octopus
             // array
             $return = $result -> return;
         } else {
-            if (!isset($result -> bookyearKey)) {
+            if (!isset($result -> return -> bookyearKey)) {
                 throw new \Exception($this -> getResponse($result -> return) -> message);
             } else {
                 $return[0] = $result -> return;
@@ -381,28 +381,27 @@ class Octopus
             throw $ex;
         }
 
-        dump($result);
-        /*
+        $return = array();
 
-          $return = array();
-          // Check for array or 1 item
-          if (count($result -> return) > 1) {
-          // array
-          $return = $result -> return;
-          } else {
-          if (!isset($result -> bookyearKey)) {
-          throw new \Exception($this -> getResponse($result -> return) -> message);
-          } else {
-          $return[0] = $result -> return;
-          }
-          }
+        if (isset($result -> return)) {
+            // Check for array or 1 item
+            if (count($result -> return) > 1) {
+                // array
+                $return = $result -> return;
+            } else {
+                if (!isset($result -> return -> costCentreKey)) {
+                    throw new \Exception($this -> getResponse($result -> return) -> message);
+                } else {
+                    $return[0] = $result -> return;
+                }
+            }
 
-          foreach ($return as $key => $journal) {
-          $return[$key] = new Item\Journal($journal);
-          }
+            foreach ($return as $key => $costcentre) {
+                $return[$key] = new Item\CostCentre($costcentre);
+            }
+        }
 
-          return $return;
-         */
+        return $return;
     }
 
     /**
