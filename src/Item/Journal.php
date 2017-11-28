@@ -27,40 +27,6 @@
 namespace Octopus\Item;
 
 /**
- * Description of JournalKey
- *
- * @author Bert Maurau
- */
-class JournalKey
-{
-
-    private $id; // integer
-
-    public function __construct($properties = null)
-    {
-        if ($properties) {
-            foreach ($properties as $key => $value) {
-                if (property_exists($this, $key)) {
-                    $this -> {'set' . ucfirst($key)}($value);
-                }
-            }
-        }
-    }
-
-    public function getId()
-    {
-        return $this -> id;
-    }
-
-    public function setId($id)
-    {
-        $this -> id = $id;
-        return $this;
-    }
-
-}
-
-/**
  * Description of Journal
  *
  * @author Bert Maurau

@@ -27,45 +27,34 @@
 namespace Octopus\Item;
 
 /**
- * Description of Dossier
+ * Description of DossierKey
  *
  * @author Bert Maurau
  */
-class Dossier
+class DossierKey
 {
 
-    private $dossierDescription; // String
-    private $dossierKey; // DossierKey
+    private $id; // integer
+
+    public function __construct($properties = null)
+    {
+        if ($properties) {
+            foreach ($properties as $key => $value) {
+                if (property_exists($this, $key)) {
+                    $this -> {'set' . ucfirst($key)}($value);
+                }
+            }
+        }
+    }
 
     public function getId()
     {
-        return $this -> dossierKey -> getId();
+        return $this -> id;
     }
 
-    public function getDossierDescription()
+    public function setId($id)
     {
-        return $this -> dossierDescription;
-    }
-
-    public function getDossierKey()
-    {
-        return $this -> dossierKey;
-    }
-
-    public function getDossierId()
-    {
-        return $this -> dossierKey -> id;
-    }
-
-    public function setDossierDescription($dossierDescription)
-    {
-        $this -> dossierDescription = $dossierDescription;
-        return $this;
-    }
-
-    public function setDossierKey($dossierKey)
-    {
-        $this -> dossierKey = new DossierKey($dossierKey);
+        $this -> id = $id;
         return $this;
     }
 

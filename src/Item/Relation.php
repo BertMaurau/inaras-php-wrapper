@@ -27,40 +27,6 @@
 namespace Octopus\Item;
 
 /**
- * Description of RelationKey
- *
- * @author Bert Maurau
- */
-class RelationKey
-{
-
-    private $id; // integer
-
-    public function __construct($properties = null)
-    {
-        if ($properties) {
-            foreach ($properties as $key => $value) {
-                if (property_exists($this, $key)) {
-                    $this -> {'set' . ucfirst($key)}($value);
-                }
-            }
-        }
-    }
-
-    public function getId()
-    {
-        return $this -> id;
-    }
-
-    public function setId($id)
-    {
-        $this -> id = $id;
-        return $this;
-    }
-
-}
-
-/**
  * Description of Relation
  *
  * @author Bert Maurau
