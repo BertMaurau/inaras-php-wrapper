@@ -441,6 +441,39 @@ class Octopus
     }
 
     /**
+     * List the Relations
+     * @return \Octopus\Item\Relation
+     * @throws \Exception
+     */
+    public function getRelations()
+    {
+        try {
+            $result = $this -> soap -> GetRelations();
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
+
+        $return = array();
+
+        if (count($result -> return) > 1) {
+            // array
+            $return = $result -> return;
+        } else {
+            if (!isset($result -> return -> relationKey)) {
+                throw new \Exception($this -> getResponse($result -> return) -> message);
+            } else {
+                $return[0] = $result -> return;
+            }
+        }
+
+        foreach ($return as $key => $relation) {
+            $return[$key] = new Item\Relation($relation);
+        }
+
+        return $return;
+    }
+
+    /**
      * Create object with code and message for return codes
      * @param integer $code
      * @return object
