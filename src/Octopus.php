@@ -548,6 +548,53 @@ class Octopus
     }
 
     /**
+     *
+     * @param integer $bookYearKey
+     * @param string $journalKey
+     * @param integer $documentNr
+     * @return \Octopus\Item\Invoice
+     * @throws Exception\MissingValueException
+     * @throws \Exception
+     */
+    public function getInvoice($bookYearKey, $journalKey, $documentNr)
+    {
+
+        if (!$bookYearKey) {
+            throw new Exception\MissingValueException('BookyearKey', 'Invoice');
+        }
+        if (!$journalKey) {
+            throw new Exception\MissingValueException('JournalKey', 'Invoice');
+        }
+        if (!$documentNr) {
+            throw new Exception\MissingValueException('DocumentNr', 'Invoice');
+        }
+
+        $request = array(
+            "bookyearKey"         => (new Item\BookyearKey) -> setId($bookYearKey),
+            "journalKey "         => (new Item\JournalKey) -> setId($journalKey),
+            "documentSequenceNr " => $documentNr,
+        );
+
+        try {
+            $result = $this -> soap -> GetProducts();
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
+
+        dump($result);
+        return;
+
+        if (!isset($result -> return -> productKey)) {
+            throw new \Exception($this -> getResponse($result -> return) -> message);
+        } else {
+            $return[0] = $result -> return;
+        }
+
+
+        return $return;
+    }
+
+    /**
      * Create object with code and message for return codes
      * @param integer $code
      * @return object
@@ -557,8 +604,9 @@ class Octopus
         return (object) ['code' => $code, 'message' => \Octopus\ReturnCodes::$codes[$code] /* , 'message' => $this -> getErrorDescription($code) */];
     }
 
+    //------------------------------------------------------------------------
     // Getters and Setters
-
+    //------------------------------------------------------------------------
     /**
      * setSoftwareHouseUuid
      * @param string $softwareHouseUuid
