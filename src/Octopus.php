@@ -354,7 +354,7 @@ class Octopus
     public function getErrorDescription($errorNr)
     {
         $request = array(
-            "errorNr " => (int) $errorNr);
+            "errorNr" => (int) $errorNr);
 
         try {
             $result = $this -> soap -> GetErrorDescription($request);
@@ -548,7 +548,7 @@ class Octopus
     }
 
     /**
-     *
+     * Get specific invoice
      * @param integer $bookYearKey
      * @param string $journalKey
      * @param integer $documentNr
@@ -556,7 +556,7 @@ class Octopus
      * @throws Exception\MissingValueException
      * @throws \Exception
      */
-    public function getInvoice($bookYearKey, $journalKey, $documentNr)
+    public function getInvoice(Item\BookyearKey $bookYearKey, $journalKey, $documentNr)
     {
 
         if (!$bookYearKey) {
@@ -570,26 +570,31 @@ class Octopus
         }
 
         $request = array(
-            "bookyearKey"         => (new Item\BookyearKey) -> setId($bookYearKey),
-            "journalKey "         => (new Item\JournalKey) -> setId($journalKey),
-            "documentSequenceNr " => $documentNr,
+            "bookyearKey"        => $bookYearKey,
+            "journalKey"         => $journalKey,
+            "documentSequenceNr" => $documentNr,
         );
 
         try {
-            $result = $this -> soap -> GetProducts();
+            $result = $this -> soap -> GetInvoice($request);
         } catch (\Exception $ex) {
             throw $ex;
         }
 
-        dump($result);
-        return;
-
-        if (!isset($result -> return -> productKey)) {
-            throw new \Exception($this -> getResponse($result -> return) -> message);
+        if (!isset($result -> return -> documentSequenceNr)) {
+            if (!isset($result -> return)) {
+                // Not found?
+                $return = array();
+            } else {
+                throw new \Exception($this -> getResponse($result -> return) -> message);
+            }
         } else {
             $return[0] = $result -> return;
         }
 
+        foreach ($return as $key => $invoice) {
+            $return[$key] = new Item\Invoice($invoice);
+        }
 
         return $return;
     }
