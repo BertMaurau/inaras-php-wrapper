@@ -28,14 +28,20 @@ $booking = new \Octopus\Item\FinancialDiversBooking;
 $booking -> setBookyearKey((new \Octopus\Item\BookyearKey) -> setId(2))
         -> setBookyearPeriodeNr('201712')
         -> setDocumentDate(date('Y-m-d\TH:i:sP'))
-        -> setDocumentSequenceNr(3)
+        -> setDocumentSequenceNr(5)
         -> setJournalKey('V2');
 
 $bookingLine = new \Octopus\Item\FinancialDiversBookingLine;
 $bookingLine -> setAmount(20)
         -> setType('C')
-        -> setExternalRelationId(123)
         -> setReference('Testingk');
+
+$booking -> addBookingLine($bookingLine);
+
+$bookingLine = new \Octopus\Item\FinancialDiversBookingLine;
+$bookingLine -> setAmount(-20)
+        -> setType('C')
+        -> setReference('Afpuntingk Testingk');
 
 $booking -> addBookingLine($bookingLine);
 
