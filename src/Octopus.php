@@ -600,6 +600,36 @@ class Octopus
     }
 
     /**
+     * Insert a new Booking
+     * @param \Octopus\Item\FinancialDiversBooking $financialDiversBooking
+     * @return boolean
+     * @throws Exception\MissingValueException
+     * @throws \Exception
+     */
+    public function insertFinancialDiversBooking(Item\FinancialDiversBooking $financialDiversBooking)
+    {
+        if (!$financialDiversBooking) {
+            throw new Exception\MissingValueException('Booking', 'InsertFinancialBooking');
+        }
+
+        $request = array(
+            "booking" => $financialDiversBooking,
+        );
+
+        try {
+            $result = $this -> soap -> InsertFinancialDiversBooking($request);
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
+
+        if (isset($result -> return) && $result -> return === 0) {
+            return true;
+        } else {
+            throw new \Exception($this -> getResponse($result -> return) -> full);
+        }
+    }
+
+    /**
      * Create object with code and message for return codes
      * @param integer $code
      * @return object
