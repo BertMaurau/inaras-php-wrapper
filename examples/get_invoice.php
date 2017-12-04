@@ -13,7 +13,6 @@ $octopus = new \Octopus\Octopus();
 $octopus -> setSoftwareHouseUuid(getenv("SOFTWAREHOUSE_UUID"))
         -> setCredentials(getenv("ACCOUNT_USER"), getenv("ACCOUNT_PASSWORD"))
         -> authenticate();
-//var_dump($octopus -> getDossier());
 
 $dossier = (new \Octopus\Item\Dossier())
         -> setDossierDescription('SoftTouch')
@@ -24,6 +23,7 @@ try {
     echo "Failed to connect. Reason: " . $ex -> getMessage();
     exit();
 }
-\Octopus\dump($octopus -> getProducts());
+
+\Octopus\dump($octopus -> getInvoice((new \Octopus\Item\BookyearKey) -> setId(2), 'V2', 2));
 
 $octopus -> close();
