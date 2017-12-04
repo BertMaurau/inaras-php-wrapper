@@ -87,7 +87,7 @@ class Octopus
         }
 
         if ($result -> return !== 0) {
-            throw new \Exception($this -> getResponse($result -> return) -> message);
+            throw new \Exception($this -> getResponse($result -> return) -> full);
         } else {
             return $this;
         }
@@ -126,7 +126,7 @@ class Octopus
         }
 
         if ($result -> return !== 0) {
-            throw new \Exception($this -> getResponse($result -> return) -> message);
+            throw new \Exception($this -> getResponse($result -> return) -> full);
         } else {
             return $this;
         }
@@ -148,7 +148,7 @@ class Octopus
         }
 
         if (!isset($result -> return -> dossierKey)) {
-            throw new \Exception($this -> getResponse($result -> return) -> message);
+            throw new \Exception($this -> getResponse($result -> return) -> full);
         }
 
         $dossier = (new Item\Dossier())
@@ -180,7 +180,7 @@ class Octopus
         }
 
         if ($result -> return !== 0) {
-            throw new \Exception($this -> getResponse($result -> return) -> message);
+            throw new \Exception($this -> getResponse($result -> return) -> full);
         } else {
             return $this;
         }
@@ -200,7 +200,7 @@ class Octopus
         }
 
         if ($result -> return !== 0) {
-            throw new \Exception($this -> getResponse($result -> return) -> message);
+            throw new \Exception($this -> getResponse($result -> return) -> full);
         } else {
             return $this;
         }
@@ -229,7 +229,7 @@ class Octopus
             $return = $result -> return;
         } else {
             if (!isset($result -> return -> accountKey)) {
-                throw new \Exception($this -> getResponse($result -> return) -> message);
+                throw new \Exception($this -> getResponse($result -> return) -> full);
             } else {
                 $return[0] = $result -> return;
             }
@@ -261,7 +261,7 @@ class Octopus
             $return = $result -> return;
         } else {
             if (!isset($result -> return -> bookyearKey)) {
-                throw new \Exception($this -> getResponse($result -> return) -> message);
+                throw new \Exception($this -> getResponse($result -> return) -> full);
             } else {
                 $return[0] = $result -> return;
             }
@@ -304,7 +304,7 @@ class Octopus
             $return = $result -> return;
         } else {
             if (!isset($result -> return -> bookyearKey)) {
-                throw new \Exception($this -> getResponse($result -> return) -> message);
+                throw new \Exception($this -> getResponse($result -> return) -> full);
             } else {
                 $return[0] = $result -> return;
             }
@@ -338,7 +338,7 @@ class Octopus
         }
 
         if ($result -> return != 0) {
-            throw new \Exception($this -> getResponse($result -> return) -> message);
+            throw new \Exception($this -> getResponse($result -> return) -> full);
         }
 
         return $this;
@@ -402,7 +402,7 @@ class Octopus
             $return = $result -> return;
         } else {
             if (!isset($result -> return -> code)) {
-                throw new \Exception($this -> getResponse($result -> return) -> message);
+                throw new \Exception($this -> getResponse($result -> return) -> full);
             } else {
                 $return[0] = $result -> return;
             }
@@ -435,7 +435,7 @@ class Octopus
             $return = $result -> return;
         } else {
             if (!isset($result -> return -> costCentreKey)) {
-                throw new \Exception($this -> getResponse($result -> return) -> message);
+                throw new \Exception($this -> getResponse($result -> return) -> full);
             } else {
                 $return[0] = $result -> return;
             }
@@ -468,7 +468,7 @@ class Octopus
             $return = $result -> return;
         } else {
             if (!isset($result -> return -> relationKey)) {
-                throw new \Exception($this -> getResponse($result -> return) -> message);
+                throw new \Exception($this -> getResponse($result -> return) -> full);
             } else {
                 $return[0] = $result -> return;
             }
@@ -501,7 +501,7 @@ class Octopus
             $return = $result -> return;
         } else {
             if (!isset($result -> return -> productGroupKey)) {
-                throw new \Exception($this -> getResponse($result -> return) -> message);
+                throw new \Exception($this -> getResponse($result -> return) -> full);
             } else {
                 $return[0] = $result -> return;
             }
@@ -534,7 +534,7 @@ class Octopus
             $return = $result -> return;
         } else {
             if (!isset($result -> return -> productKey)) {
-                throw new \Exception($this -> getResponse($result -> return) -> message);
+                throw new \Exception($this -> getResponse($result -> return) -> full);
             } else {
                 $return[0] = $result -> return;
             }
@@ -586,7 +586,7 @@ class Octopus
                 // Not found?
                 $return = array();
             } else {
-                throw new \Exception($this -> getResponse($result -> return) -> message);
+                throw new \Exception($this -> getResponse($result -> return) -> full);
             }
         } else {
             $return[0] = $result -> return;
@@ -606,7 +606,7 @@ class Octopus
      */
     private function getResponse($code)
     {
-        return (object) ['code' => $code, 'message' => \Octopus\ReturnCodes::$codes[$code] /* , 'message' => $this -> getErrorDescription($code) */];
+        return (object) ['code' => $code, 'message' => \Octopus\ReturnCodes::$codes[$code], 'full' => $this -> getLastError()];
     }
 
     //------------------------------------------------------------------------
