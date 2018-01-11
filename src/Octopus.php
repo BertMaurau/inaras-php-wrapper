@@ -60,6 +60,52 @@ class Octopus
     }
 
     /**
+     * Get the bookyearKey and bookyearPeriod for the given date
+     * @param string $date The date to compare with
+     * @param boolean $showOutput to show output on the screen
+     * @return object key and period
+     */
+    public function getBookyearPeriodByDate($date, $showOutput = false)
+    {
+
+        $dateCompare = strtotime($date);
+
+        $bookyearKey = null;
+        $bookyearPeriod = null;
+
+        // Get all bookyears
+        $bookyears = $this -> getBookyears();
+
+        foreach ($bookyears as $key => $bookyear) {
+
+            if ($showOutput) {
+                echo "Checking bookyear {$bookyear -> getBookyearDescription()}. <br>";
+            }
+
+            // Loop the periods for current bookyear
+            foreach ($bookyear -> getPeriods() as $key => $period) {
+
+                if ($showOutput) {
+                    echo " - Comparing {$period -> getStartDate()}  <  $date  <  {$period -> getEndDate()}. <br>";
+                }
+
+                // Check if period matches the given date
+                if (strtotime($period -> getStartDate()) <= $dateCompare && strtotime($period -> getEndDate()) >= $dateCompare) {
+
+                    $bookyearKey = $bookyear -> getBookyearKey();
+                    $bookyearPeriod = $period -> getBookyearPeriod();
+
+                    if ($showOutput) {
+                        echo " - - Match: $bookyearPeriod. <br>";
+                    }
+                    return (object) array('bookyearKey' => $bookyearKey, 'bookyearPeriod' => $bookyearPeriod);
+                }
+            }
+        }
+        return (object) array('bookyearKey' => $bookyearKey, 'bookyearPeriod' => $bookyearPeriod);
+    }
+
+    /**
      * Authenticate with the service
      * @return response
      * @throws \Exception
@@ -626,6 +672,50 @@ class Octopus
             return true;
         } else {
             throw new \Exception($this -> getResponse($result -> return) -> full);
+        }
+    }
+
+    /**
+     * Insert a new BuySell Booking
+     * @param \Octopus\Item\BuySellBooking $buySellBooking
+     * @return boolean
+     * @throws Exception\MissingValueException
+     * @throws \Exception
+     */
+    public function insertBuySellBooking(Item\BuySellBooking $buySellBooking)
+    {
+        if (!$buySellBooking) {
+            throw new Exception\MissingValueException('Booking', 'BuySellBooking');
+        }
+
+        $request = array(
+            "booking" => $buySellBooking,
+        );
+
+        print_r($request);
+
+        try {
+            $result = $this -> soap -> InsertBuySellBooking($request);
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
+
+        if (isset($result -> return) && $result -> return === 0) {
+            return true;
+        } else {
+            throw new \Exception($this -> getResponse($result -> return) -> full);
+        }
+    }
+
+    /**
+     * On class destruct
+     */
+    public function __destruct()
+    {
+        try {
+            $this -> close();
+        } catch (Exception $ex) {
+            // do nothingk
         }
     }
 
