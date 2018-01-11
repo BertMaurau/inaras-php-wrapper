@@ -27,18 +27,15 @@
 namespace Octopus\Item;
 
 /**
- * Description of Bookyear
+ * Description of BookyearPeriod
  *
  * @author Bert Maurau
  */
-class Bookyear
+class BookyearPeriod
 {
 
-    private $bookyearDescription; // String
-    private $bookyearKey; // DossierKey
-    private $closed; // boolean
-    private $endData; // Date
-    private $periods; //array
+    private $bookyearPeriod; // integer
+    private $endDate; // Date
     private $startDate; // Date
 
     public function __construct($properties = null)
@@ -52,34 +49,14 @@ class Bookyear
         }
     }
 
-    public function getId()
+    public function getBookyearPeriod()
     {
-        return $this -> bookyearKey -> getId();
+        return $this -> bookyearPeriod;
     }
 
-    public function getBookyearDescription()
+    public function getEndDate()
     {
-        return $this -> bookyearDescription;
-    }
-
-    public function getBookyearKey()
-    {
-        return $this -> bookyearKey;
-    }
-
-    public function getClosed()
-    {
-        return $this -> closed;
-    }
-
-    public function getEndData()
-    {
-        return $this -> endData;
-    }
-
-    public function getPeriods()
-    {
-        return $this -> periods;
+        return $this -> endDate;
     }
 
     public function getStartDate()
@@ -87,35 +64,15 @@ class Bookyear
         return $this -> startDate;
     }
 
-    public function setBookyearDescription($bookyearDescription)
+    public function setBookyearPeriod($bookyearPeriod)
     {
-        $this -> bookyearDescription = $bookyearDescription;
+        $this -> bookyearPeriod = $bookyearPeriod;
         return $this;
     }
 
-    public function setBookyearKey($bookyearKey)
+    public function setEndDate($endDate)
     {
-        $this -> bookyearKey = new BookyearKey($bookyearKey);
-        return $this;
-    }
-
-    public function setClosed($closed)
-    {
-        $this -> closed = $closed;
-        return $this;
-    }
-
-    public function setEndData($endData)
-    {
-        $this -> endData = $endData;
-        return $this;
-    }
-
-    public function setPeriods($periods)
-    {
-        foreach ($periods as $key => $period) {
-            $this -> periods[$period -> bookyearPeriod] = new BookyearPeriod($period);
-        }
+        $this -> endDate = $endDate;
         return $this;
     }
 

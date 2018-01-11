@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017 Bert Maurau.
+ * Copyright 2018 Bert Maurau.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,20 +27,19 @@
 namespace Octopus\Item;
 
 /**
- * Description of Journal
+ * Description of BuySellBookingLine
  *
  * @author Bert Maurau
  */
-class Journal
+class BuySellBookingLine
 {
 
-    private $bookyearKey; // bookyearKey
-    private $closed; // boolean
-    private $closedPeriod; // integer
-    private $journalKey; // string
-    private $lastBookedDocumentNr; // integer
-    private $name; // string
-    private $protectedPeriod; // integer
+    private $accountKey; // int
+    private $baseAmount; // double
+    private $comment; // string
+    private $costCentreKey; // costCentreKey
+    private $vatAmount; // double
+    private $vatCodeKey; // string
 
     public function __construct($properties = null)
     {
@@ -53,85 +52,69 @@ class Journal
         }
     }
 
-    public function getId()
+    public function getAccountKey()
     {
-        return $this -> journalKey -> getId();
+        return $this -> accountKey;
     }
 
-    public function getBookyearKey()
+    public function getBaseAmount()
     {
-        return $this -> bookyearKey;
+        return $this -> baseAmount;
     }
 
-    public function getClosed()
+    public function getComment()
     {
-        return $this -> closed;
+        return $this -> comment;
     }
 
-    public function getClosedPeriod()
+    public function getCostCentreKey()
     {
-        return $this -> closedPeriod;
+        return $this -> costCentreKey;
     }
 
-    public function getJournalKey()
+    public function getVatAmount()
     {
-        return $this -> journalKey;
+        return $this -> vatAmount;
     }
 
-    public function getLastBookedDocumentNr()
+    public function getVatCodeKey()
     {
-        return $this -> lastBookedDocumentNr;
+        return $this -> vatCodeKey;
     }
 
-    public function getName()
+    public function setAccountKey($accountKey)
     {
-        return $this -> name;
-    }
-
-    public function getProtectedPeriod()
-    {
-        return $this -> protectedPeriod;
-    }
-
-    public function setBookyearKey($bookyearKey)
-    {
-        $this -> bookyearKey = new BookyearKey($bookyearKey);
+        $this -> accountKey = $accountKey;
         return $this;
     }
 
-    public function setClosed($closed)
+    public function setBaseAmount($baseAmount)
     {
-        $this -> closed = $closed;
+        $this -> baseAmount = $baseAmount;
         return $this;
     }
 
-    public function setClosedPeriod($closedPeriod)
+    public function setComment($comment)
     {
-        $this -> closedPeriod = $closedPeriod;
+        $this -> comment = $comment;
         return $this;
     }
 
-    public function setJournalKey($journalKey)
+    public function setCostCentreKey($costCentreKey)
     {
-        $this -> journalKey = $journalKey;
+        $this -> costCentreKey = new CostCentreKey($costCentreKey);
         return $this;
     }
 
-    public function setLastBookedDocumentNr($lastBookedDocumentNr)
+    public function setVatAmount($vatAmount)
     {
-        $this -> lastBookedDocumentNr = $lastBookedDocumentNr;
+        $this -> vatAmount = $vatAmount;
         return $this;
     }
 
-    public function setName($name)
+    public function setVatCodeKey($vatCodeKey)
     {
-        $this -> name = $name;
-        return $this;
-    }
-
-    public function setProtectedPeriod($protectedPeriod)
-    {
-        $this -> protectedPeriod = $protectedPeriod;
+        $this -> vatCodeKey = $vatCodeKey;
         return $this;
     }
 
