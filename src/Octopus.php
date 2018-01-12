@@ -129,6 +129,7 @@ class Octopus
         try {
             $result = $this -> soap -> Authenticate($request);
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
@@ -168,6 +169,7 @@ class Octopus
         try {
             $result = $this -> soap -> AuthenticateAndConnect($request);
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
@@ -190,6 +192,7 @@ class Octopus
         try {
             $result = $this -> soap -> GetDossiers();
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
@@ -222,6 +225,7 @@ class Octopus
         try {
             $result = $this -> soap -> ConnectToDossier($request);
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
@@ -245,7 +249,8 @@ class Octopus
             throw $ex;
         }
 
-        if ($result -> return !== 0) {
+        // 0 = OK, -6 = no open dossier
+        if ($result -> return !== 0 && $result -> return !== -6) {
             throw new \Exception($this -> getResponse($result -> return) -> full);
         } else {
             return $this;
@@ -266,6 +271,7 @@ class Octopus
         try {
             $result = $this -> soap -> GetAccounts($request);
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
@@ -298,6 +304,7 @@ class Octopus
         try {
             $result = $this -> soap -> GetBookyears();
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
         $return = array();
@@ -340,6 +347,7 @@ class Octopus
         try {
             $result = $this -> soap -> GetJournals($request);
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
@@ -380,6 +388,7 @@ class Octopus
         try {
             $result = $this -> soap -> SetLocale($request);
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
@@ -405,6 +414,7 @@ class Octopus
         try {
             $result = $this -> soap -> GetErrorDescription($request);
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
@@ -421,6 +431,7 @@ class Octopus
         try {
             $result = $this -> soap -> GetLastError();
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
@@ -437,6 +448,7 @@ class Octopus
         try {
             $result = $this -> soap -> GetCostCentres();
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
@@ -471,6 +483,7 @@ class Octopus
         try {
             $result = $this -> soap -> GetVatCodes();
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
@@ -504,6 +517,7 @@ class Octopus
         try {
             $result = $this -> soap -> GetRelations();
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
@@ -537,6 +551,7 @@ class Octopus
         try {
             $result = $this -> soap -> GetProductGroups();
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
@@ -570,6 +585,7 @@ class Octopus
         try {
             $result = $this -> soap -> GetProducts();
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
@@ -624,6 +640,7 @@ class Octopus
         try {
             $result = $this -> soap -> GetInvoice($request);
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
@@ -665,6 +682,7 @@ class Octopus
         try {
             $result = $this -> soap -> InsertFinancialDiversBooking($request);
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
@@ -697,6 +715,7 @@ class Octopus
         try {
             $result = $this -> soap -> InsertBuySellBooking($request);
         } catch (\Exception $ex) {
+            $this -> close();
             throw $ex;
         }
 
