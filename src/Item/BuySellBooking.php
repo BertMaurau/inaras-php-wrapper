@@ -37,7 +37,7 @@ class BuySellBooking
     private $amount; //double
     private $bookingLines; // array of bookinglines
     private $bookyearKey; // bookyearKey
-    private $bookyearPeriodNr; // int
+    private $bookyearPeriodeNr; // int
     private $comment; // string
     private $currencyCode; // string
     private $documentDate; // date
@@ -71,9 +71,9 @@ class BuySellBooking
         return $this -> amount;
     }
 
-    public function getBookyearPeriodNr()
+    public function getBookyearPeriodeNr()
     {
-        return $this -> bookyearPeriodNr;
+        return $this -> bookyearPeriodeNr;
     }
 
     public function getComment()
@@ -127,9 +127,9 @@ class BuySellBooking
         return $this;
     }
 
-    public function setBookyearPeriodNr($bookyearPeriodNr)
+    public function setBookyearPeriodeNr($bookyearPeriodeNr)
     {
-        $this -> bookyearPeriodNr = $bookyearPeriodNr;
+        $this -> bookyearPeriodeNr = $bookyearPeriodeNr;
         return $this;
     }
 
