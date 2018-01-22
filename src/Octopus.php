@@ -29,8 +29,6 @@ namespace Octopus;
 use Octopus\Exception as Exception;
 use Octopus\Item as Item;
 
-session_start();
-
 function dump($data)
 {
     echo '<pre>';
@@ -710,10 +708,70 @@ class Octopus
             "booking" => $buySellBooking,
         );
 
-        print_r($request);
-
         try {
             $result = $this -> soap -> InsertBuySellBooking($request);
+        } catch (\Exception $ex) {
+            $this -> close();
+            throw $ex;
+        }
+
+        if (isset($result -> return) && $result -> return === 0) {
+            return true;
+        } else {
+            throw new \Exception($this -> getResponse($result -> return) -> full);
+        }
+    }
+
+    /**
+     * Insert a new Invoice
+     * @param \Octopus\Item\Invoice $invoice
+     * @return boolean
+     * @throws Exception\MissingValueException
+     * @throws \Exception
+     */
+    public function insertInvoice(Item\Invoice $invoice)
+    {
+        if (!$invoice) {
+            throw new Exception\MissingValueException('Invoice', 'InsertInvoice');
+        }
+
+        $request = array(
+            "invoice" => $invoice,
+        );
+
+        try {
+            $result = $this -> soap -> InsertInvoice($request);
+        } catch (\Exception $ex) {
+            $this -> close();
+            throw $ex;
+        }
+
+        if (isset($result -> return) && $result -> return === 0) {
+            return true;
+        } else {
+            throw new \Exception($this -> getResponse($result -> return) -> full);
+        }
+    }
+
+    /**
+     * Insert or update an existing relation
+     * @param \Octopus\Item\Relation $relation
+     * @return boolean
+     * @throws Exception\MissingValueException
+     * @throws \Exception
+     */
+    public function insertUpdateRelation(Item\Relation $relation)
+    {
+        if (!$relation) {
+            throw new Exception\MissingValueException('Relation', 'InsertUpdateRelation');
+        }
+
+        $request = array(
+            "relation" => $relation,
+        );
+
+        try {
+            $result = $this -> soap -> InsertUpdateRelation($request);
         } catch (\Exception $ex) {
             $this -> close();
             throw $ex;
