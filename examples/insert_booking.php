@@ -24,29 +24,76 @@ try {
     exit();
 }
 
-$booking = new \Octopus\Item\FinancialDiversBooking;
-$booking -> setBookyearKey((new \Octopus\Item\BookyearKey) -> setId(2))
-        -> setBookyearPeriodeNr('201712')
-        -> setDocumentDate(date('Y-m-d\TH:i:sP'))
-        -> setDocumentSequenceNr(5)
-        -> setJournalKey('V2');
+$dateToCompareWith = date('Y-m-d\TH:i:sP');
 
-$bookingLine = new \Octopus\Item\FinancialDiversBookingLine;
-$bookingLine -> setAmount(20)
-        -> setType('C')
-        -> setReference('Testingk');
+// Start procedure
+// Check the bookyears to see which bookyear needs to be selected
+$bookyearResult = $octopus -> getBookyearPeriodByDate($dateToCompareWith, true);
 
-$booking -> addBookingLine($bookingLine);
+$octopus -> close();
 
-$bookingLine = new \Octopus\Item\FinancialDiversBookingLine;
-$bookingLine -> setAmount(-20)
-        -> setType('C')
-        -> setReference('Afpuntingk Testingk');
+if (!$bookyearResult -> bookyearKey) {
+    echo "No matching bookyearPeriod found for $dateToCompareWith. Terminating.<br>";
+    exit;
+} else {
+    echo "Document will be booked w/ bookyearKey {$bookyearResult -> bookyearKey -> getId()} and bookyearPeriod {$bookyearResult -> bookyearPeriod}. <br>";
+    exit;
+}
 
-$booking -> addBookingLine($bookingLine);
+// Next get all the journals and compare with given journal to fetch last document
+$journalKey = getenv("JOURNAL_KEY");
 
-\Octopus\dump($octopus -> insertFinancialDiversBooking($booking));
+$journals = $octopus -> getJournals($bookyearKey);
+foreach ($journals as $key => $journal) {
+    if ($journal -> getJournalKey() === $journalKey) {
+        // get the doc nr
+        $newDocumentNumber = ($journal -> getLastBookedDocumentNr()) + 1;
+    }
+}
 
-//\Octopus\dump($octopus -> getLastError());
+echo "Document for $dateToCompareWith will be booked in $bookyearPeriod (Key: {$bookyearKey -> getId()}) w/ documentNr $newDocumentNumber.";
 
+/*
+
+  // create the booking
+  $booking = (new \Octopus\Item\FinancialDiversBooking())
+  -> setBookyearKey($bookyearKey)
+  -> setBookyearPeriodeNr('201801')
+  -> setDocumentDate(date('Y-m-d\TH:i:sP'))
+  -> setDocumentSequenceNr($newDocumentNumber)
+  -> setJournalKey($journalKey);
+
+  $bookingLine = new \Octopus\Item\FinancialDiversBookingLine;
+  $bookingLine -> setAmount(20)
+  -> setType('C')
+  -> setReference('Testingk');
+
+  $booking -> addBookingLine($bookingLine);
+
+  $bookingLine = new \Octopus\Item\FinancialDiversBookingLine;
+  $bookingLine -> setAmount(-20)
+  -> setType('C')
+  -> setReference('Afpuntingk Testingk');
+
+  $booking -> addBookingLine($bookingLine);
+
+  \Octopus\dump($octopus -> insertFinancialDiversBooking($booking));
+ */
+//\Octopus\dump($journals);
+/*
+
+
+  $booking = new \Octopus\Item\FinancialDiversBooking;
+  $booking -> setBookyearKey($bookyearKey)
+  -> setBookyearPeriodeNr('201712')
+  -> setDocumentDate(date('Y-m-d\TH:i:sP'))
+  -> setDocumentSequenceNr(6)
+  -> setJournalKey('V2');
+
+
+
+  \Octopus\dump($octopus -> insertFinancialDiversBooking($booking));
+
+  //\Octopus\dump($octopus -> getLastError());
+ */
 $octopus -> close();

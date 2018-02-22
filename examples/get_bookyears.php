@@ -24,6 +24,7 @@ try {
     exit();
 }
 
-\Octopus\dump($octopus -> getBookyears());
+//\Octopus\dump($octopus -> getAccounts((new \Octopus\Item\BookyearKey) -> setId(2)));
+\Octopus\dump($octopus -> getVatCodes());
 
 $octopus -> close();
