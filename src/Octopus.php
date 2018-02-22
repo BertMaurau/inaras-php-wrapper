@@ -77,14 +77,14 @@ class Octopus
         foreach ($bookyears as $key => $bookyear) {
 
             if ($showOutput) {
-                echo "Checking bookyear {$bookyear -> getBookyearDescription()}. <br>";
+                echo "Checking bookyear {$bookyear -> getBookyearDescription()}. " . PHP_EOL;
             }
 
             // Loop the periods for current bookyear
             foreach ($bookyear -> getPeriods() as $key => $period) {
 
                 if ($showOutput) {
-                    echo " - Comparing {$period -> getStartDate()}  <  $date  <  {$period -> getEndDate()}. <br>";
+                    echo " - Comparing {$period -> getStartDate()}  <  $date  <  {$period -> getEndDate()}. " . PHP_EOL;
                 }
 
                 // Check if period matches the given date
@@ -94,7 +94,7 @@ class Octopus
                     $bookyearPeriod = $period -> getBookyearPeriod();
 
                     if ($showOutput) {
-                        echo " - - Match: $bookyearPeriod. <br>";
+                        echo " - - Match: $bookyearPeriod. " . PHP_EOL;
                     }
                     return (object) array('bookyearKey' => $bookyearKey, 'bookyearPeriod' => $bookyearPeriod);
                 }
